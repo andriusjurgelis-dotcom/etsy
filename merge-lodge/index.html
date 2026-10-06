@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#2f7d4f">
+<title>Merge Lodge</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="bgdeco"></div>
+
+<div id="game">
+  <header id="hud">
+    <div id="lvl" class="lvl" title="Level"><div class="ring" id="lvl-ring"></div><span id="lvl-n">1</span></div>
+    <div class="pill" id="p-coins"><i class="ico" data-ico="coin"></i><b id="v-coins">0</b></div>
+    <div class="pill" id="p-gems"><i class="ico" data-ico="gem"></i><b id="v-gems">0</b></div>
+    <div class="pill energy" id="p-energy"><i class="ico" data-ico="energy"></i><b id="v-energy">0</b><small id="v-timer"></small><span class="bar"><i id="en-bar"></i></span></div>
+    <button id="btn-settings" class="round" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.5 7.5 0 0 0-1.7-1L15 3.3h-4l-.4 2.6c-.6.3-1.2.6-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.100.7 1.700 1l.4 2.600h4l.4-2.600c.6-.3 1.200-.6 1.700-1l2.500 1 2-3.500zM13 15.500a3.500 3.500 0 1 1 0-7 3.500 3.500 0 0 1 0 7z" transform="translate(-1 0)"/></svg>
+    </button>
+  </header>
+
+  <main id="views">
+    <section id="view-merge" class="view active">
+      <div id="orders"></div>
+      <div id="board-wrap"><canvas id="board"></canvas></div>
+      <div id="info"></div>
+      <div id="dock">
+        <div id="slots"></div>
+        <button id="bin" class="tool" data-drop="bin" aria-label="Sell">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M9 3h6l1 2h4v2H4V5h4zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2zm4 2v8h1.500v-8zm3.500 0v8H15v-8z"/></svg>
+          <span data-i18n="sell_s">Sell</span>
+        </button>
+        <button id="btn-sort" class="tool" aria-label="Sort">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3 5h14v2H3zm0 6h10v2H3zm0 6h6v2H3zm15-2V7l-3 3-1.400-1.400L19 4l5 5.600L22.600 11 20 8.400V15z" transform="translate(-1 0)"/></svg>
+          <span data-i18n="sort_s">Sort</span>
+        </button>
+        <button id="btn-wand" class="tool" aria-label="Wand">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="m4 20 11-11 2 2L6 22zM16 3l1.200 2.800L20 7l-2.800 1.200L16 11l-1.200-2.800L12 7l2.800-1.200zM20 12l.8 1.700L22.500 14.500l-1.700.8L20 17l-.8-1.700-1.700-.8 1.700-.8z"/></svg>
+          <span data-i18n="wand_s">Wand</span><em id="wand-n">1</em>
+        </button>
+      </div>
+    </section>
+
+    <section id="view-resort" class="view">
+      <div id="scene-wrap"><canvas id="scene"></canvas></div>
+      <div id="resort-top">
+        <div class="pill gold"><i class="ico" data-ico="star"></i><b id="v-stars">0</b></div>
+        <div class="pill"><span class="lbl" data-i18n="resort_pct">Resort restored</span> <b id="v-pct">0%</b></div>
+        <button id="btn-time" class="round" aria-label="Time of day">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 4V2m0 20v-2M4 12H2m20 0h-2M6.300 6.300 4.900 4.900m14.200 14.200-1.400-1.400M17.700 6.300l1.400-1.400M4.900 19.100l1.400-1.400M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <div id="banner"></div>
+      <div id="build-card" hidden></div>
+    </section>
+  </main>
+
+  <nav id="tabs">
+    <button class="tab" data-tab="resort"><svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg><span data-i18n="tab_resort">Resort</span><i class="dot" id="dot-resort"></i></button>
+    <button class="tab active" data-tab="merge"><svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm12 1 2 3 3 .5-2.200 2.200.5 3.300L15 21l-3.300 1 .5-3.300L10 16.500l3-.5z"/></svg><span data-i18n="tab_merge">Merge</span></button>
+    <button class="tab" data-tab="daily"><svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M3 8h18v4H3zm1 5h7v8H5a1 1 0 0 1-1-1zm9 0h7v7a1 1 0 0 1-1 1h-6zM12 8c-3-1-5-3-4-5 1.500-1.500 4 .5 4 5zm0 0c3-1 5-3 4-5-1.500-1.500-4 .5-4 5z"/></svg><span data-i18n="tab_daily">Rewards</span><i class="dot" id="dot-daily"></i></button>
+    <button class="tab" data-tab="shop"><svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M4 7h16l1 4a3 3 0 0 1-2 3v6H5v-6a3 3 0 0 1-2-3zm4 7v4h4v-4z"/></svg><span data-i18n="tab_shop">Shop</span></button>
+  </nav>
+
+  <canvas id="fx"></canvas>
+  <div id="tut" hidden><span id="tut-text"></span><button id="tut-skip" data-i18n="skip">Skip</button></div>
+  <div id="hand" hidden></div>
+  <div id="toasts"></div>
+  <div id="modal-root"></div>
+</div>
+
+<div id="lock" hidden><div><h1 data-i18n="title">Merge Lodge</h1><p id="lock-msg"></p></div></div>
+
+<script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
+<script src="js/data.js"></script>
+<script src="js/cg.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/art.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
